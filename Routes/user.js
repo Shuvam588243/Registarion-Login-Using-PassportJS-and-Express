@@ -9,22 +9,35 @@ router.get('/register',(req,res)=>{
 });
 
 router.post('/register',(req,res)=>{
-    const {name,email,pass1,pass2} = req.body;
+    const {name,email,password,password2} = req.body;
     let errors = [];
 
-    if(!name || !email || !pass1 || !pass2)
+    if(!name || !email || !password || !password2)
     {
         errors.push({ msg : 'Please Fill in all the Fields '});
     }
 
-    if(pass1 != pass2)
+    if(password != password2)
     {
         errors.push({ msg : 'Passwords Do not Matched '});
     }
 
-    if(pass1.length < 6)
+    if(password.length < 6)
     {
         errors.push({ msg : 'Passwords should be atleast 6 characters '});
+    }
+    if(errors.length > 0)
+    {
+        res.render('register',{
+            errors, 
+            name,
+            email,
+            password,
+            password2
+        })
+    }
+    else{
+        res.send('passed');
     }
 });
 
